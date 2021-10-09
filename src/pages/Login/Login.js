@@ -33,9 +33,9 @@ const Login = () => {
 
         TerminService.loginApi(addsignup).then((res) => {
 
-            const local = res.data.token;
+            const token = res.data.token;
             const name = res.data.name;
-            localStorage.setItem("token", local)
+            localStorage.setItem("token", token)
             localStorage.setItem("name", name)
         
             console.log("res=", res)
