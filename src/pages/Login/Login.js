@@ -32,16 +32,13 @@ const Login = () => {
         }
 
         TerminService.loginApi(addsignup).then((res) => {
-
+            console.log("res=", res)
             const token = res.data.token;
             const name = res.data.name;
             localStorage.setItem("token", token)
             localStorage.setItem("name", name)
-        
-            console.log("res=", res)
-           
-           
             alert("signup submitted successfully")
+            
             window.location.assign("/termin")
 
 
