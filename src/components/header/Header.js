@@ -23,6 +23,7 @@ const Header = () => {
             <nav ref={menuRef} >
                 <ul>
                     <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/signup">Signup</Link></li>
                     <li><Link to="/kontakt">Kontakt</Link> </li>
                     <li onClick={() => setOpenSubMenuTermin(!openSubMenuTermin)}><Link to="/termin"> Termin Vereinbaren</Link>
                         {isMobileSize ?

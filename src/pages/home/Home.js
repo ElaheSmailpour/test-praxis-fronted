@@ -2,9 +2,11 @@
 import { Link } from "react-router-dom";
 import "./home.scss"
 import { useEffect, useState } from "react";
-import TerminService from "../../service/TerminService"
+//import TerminService from "../../service/TerminService"
+import axios  from "axios";
 const Home = () => {
   const [cover, setCover] = useState([])
+  /*
   useEffect(() => {
 
     TerminService.imagesApi().then(res => {
@@ -14,6 +16,13 @@ const Home = () => {
       console.log("errorTerminService=", err)
     })
   }, [])
+*/
+  useEffect(() => {
+    axios.get("http://localhost:5000/imagesHome").then((response) => {
+      setCover(response.data);
+    });
+  }, []);
+
 
   return (
 

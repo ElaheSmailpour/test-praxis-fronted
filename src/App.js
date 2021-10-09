@@ -6,6 +6,7 @@ import Footer from "./components/footer/Footer"
 import Login from "../src/pages/Login/Login"
 import Kontakt from "../src/pages/kontakt/Kontakt"
 import TerminVereinbaren from "../src/pages/termin-Vereinbaren/TerminVereinbaren"
+import Signup from "./pages/signup/Signup";
 function App() {
 
   return (
@@ -15,7 +16,7 @@ function App() {
   
    <div className="app-content">
      <Switch>
-
+     <Route path={"/signup"} component={Signup}></Route>
      <Route path={"/kontakt"} component={Kontakt}></Route>
      <Route path={"/login"} component={Login}></Route>
      <Route path={"/termin"} component={TerminVereinbaren}></Route>
