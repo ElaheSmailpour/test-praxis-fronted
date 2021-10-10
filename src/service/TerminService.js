@@ -11,9 +11,12 @@ class TerminService {
         return axios.post("/register/signup",body)
    }
   
-   static loginApi(email, password) {
-    return axios.post("/register/login", { email, password })
+
+   static loginApi(body) {
+    return axios.post("/register/login", body)
   }
+  
+  
   static getbehandlung() {
     return axios.get("/termin/behandlungen")
   }
