@@ -17,12 +17,17 @@ const Login = () => {
 
     const HandleSubmit = (event) => {
         event.preventDefault()
-        
+        if (!login.email || !login.password) {
+            alert("enter your email and Password")
+            return;
+            
+
+        }
         TerminService.loginApi(login.email, login.password).then(res => {
             console.log("res=", res)
             toast.success("login");
             localStorage.setItem("loginToken", res.data.token)
-            localStorage.setItem("email", login.email)
+            
             window.location.assign("/termin");
 
         }).catch(err => {
