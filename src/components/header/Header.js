@@ -25,11 +25,13 @@ const Header = () => {
                     <li><Link to="/login">Login</Link></li>
                     <li><Link to="/signup">Signup</Link></li>
                     <li><Link to="/kontakt">Kontakt</Link> </li>
-                    <li onClick={() => setOpenSubMenuTermin(!openSubMenuTermin)}><Link to="/termin"> Termin Vereinbaren</Link>
+                   
+                    <li onClick={() => setOpenSubMenuTermin(!openSubMenuTermin)}> Termin 
                         {isMobileSize ?
                             <Collapse in={openSubMenuTermin} style={{ width: "100%" }} classes={{ root: "collapse" }}>
                                 <ul>
-                                    <li><Link to="/termin"> termin Vereinbaren</Link></li>
+                                <li><Link to="/termin"> termin Vereinbaren</Link></li>
+
 
                                     <li><Link to="/störnieren"> Termin störnieren</Link></li>
                                 </ul>

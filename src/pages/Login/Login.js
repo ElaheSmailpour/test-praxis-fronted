@@ -25,15 +25,16 @@ const Login = () => {
         }
         TerminService.loginApi(login.email, login.password).then(res => {
             console.log("res=", res)
-            toast.success("login");
             localStorage.setItem("loginToken", res.data.token)
+            toast.success("login");
+          
 
             window.location.assign("/termin");
 
         }).catch(err => {
             setError("find not User!")
 
-            console.log("errorTerminService=", err)
+            console.log("errorloginApi=", err)
         })
     }
 

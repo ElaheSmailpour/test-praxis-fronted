@@ -14,7 +14,10 @@ class TerminService {
    static loginApi(email, password) {
     return axios.post("/register/login", { email, password })
   }
-
+  static getbehandlung() {
+    return axios.get("/termin/behandlungen")
+  }
+ 
 }
 
 export default TerminService

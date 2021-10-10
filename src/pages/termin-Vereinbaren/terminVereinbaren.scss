@@ -1,0 +1,124 @@
+@import "../../assets/mixins";
+
+.termin {
+    padding: 2rem;
+    background-color: lightgrey;
+    &-select {
+        width: 50%;
+        #demo-simple-select-label {
+            font-size: 18px;
+            color: black;
+        }
+    }
+
+    &-homelink {
+        display: flex;
+        justify-content: flex-end;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .sprechstunden {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 42%;
+        padding: unset;
+
+        margin: 4rem auto;
+
+        & > li {
+            margin-bottom: 0.5rem;
+            .time-hour {
+                align-items: center;
+
+                font-size: 16px;
+                display: grid;
+                grid-template-columns: 5rem 1fr;
+
+                @include respond(phone) {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+
+            ul {
+                list-style: none;
+                display: flex;
+                padding: unset;
+                margin: unset;
+
+                @include respond(phone) {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1rem;
+                }
+
+                li {
+                    margin-left: 1rem;
+                    cursor: pointer;
+                    background-color: rgb(146, 127, 127);
+                    padding: 1rem;
+                    font-size: 16px;
+                    font-weight: bold;
+                    &.hourActive {
+                        background-color: rgb(19, 185, 19);
+                    }
+
+                    @include respond(phone) {
+                        margin: unset;
+                    }
+                }
+            }
+        }
+    }
+
+    .show-termin {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        p {
+            font-size: 16px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+        lable {
+            font-size: 18px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        button {
+            background: lightseagreen;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        & > * {
+            margin-bottom: 1rem;
+        }
+    }
+
+    .next {
+        width: 42%;
+        margin: 0 auto;
+        display: flex;
+
+        button {
+            padding: 0.5rem 2rem;
+            background-color: cadetblue;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        justify-content: center;
+    }
+}
+
+.show-termin__container {
+    border: 3px solid black;
+    padding: 4rem;
+
+    @include respond(phone) {
+        padding: 1rem;
+    }
+}
