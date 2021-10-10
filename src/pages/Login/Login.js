@@ -20,19 +20,19 @@ const Login = () => {
         if (!login.email || !login.password) {
             alert("enter your email and Password")
             return;
-            
+
 
         }
         TerminService.loginApi(login.email, login.password).then(res => {
             console.log("res=", res)
             toast.success("login");
             localStorage.setItem("loginToken", res.data.token)
-            
+
             window.location.assign("/termin");
 
         }).catch(err => {
             setError("find not User!")
-          
+
             console.log("errorTerminService=", err)
         })
     }
@@ -52,7 +52,7 @@ const Login = () => {
                 <p>{error}</p>
             </div>}
         </div>
-        
+
     )
 }
 
