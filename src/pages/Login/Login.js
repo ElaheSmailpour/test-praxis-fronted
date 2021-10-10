@@ -1,11 +1,10 @@
-
-
+import TerminService from "../../service/TerminService"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from 'react';
 import "./login.scss"
-import TerminService from "../../service/TerminService";
-import { useState } from "react";
-
 const Login = () => {
-
+    const [error, setError] = useState("")
     const [login, setLogin] = useState({
         email: "",
         password: ""
@@ -16,50 +15,38 @@ const Login = () => {
         setLogin(newLogin)
     }
 
-    const HandleSubmit = (event) => {
-        event.preventDefault()
-        if (!login.email || !login.password) {
-            alert("enter your email and Password")
-            return;
+    const HandleSubmit = () => {
 
-        }
-
-        const addsignup = {
-
-            password: login.password,
-            email: login.email
-
-        }
-
-        TerminService.loginApi(addsignup).then((res) => {
+        TerminService.loginApi(login.email, login.password).then(res => {
             console.log("res=", res)
-            const token = res.data.token;
-            const name = res.data.name;
-            localStorage.setItem("token", token)
-            localStorage.setItem("name", name)
-            alert("signup submitted successfully")
-            
-            window.location.assign("/termin")
+            toast.success("login");
+            localStorage.setItem("adminToken", res.data.token)
+            localStorage.setItem("Email", login.email)
+            window.location.assign("/termin");
 
-
-        }).catch((error) => {
-            alert("enter your email and Password")
-            console.log(error);
+        }).catch(err => {
+            setError("find not User!")
+          
+            console.log("errorTerminService=", err)
         })
-
     }
 
 
 
     return (
         <div className="login">
-            <h1>Login</h1>
-            <div className="login-content">
-                <lable>Username: <input type="text" value={login.email} name="email" placeholder="Email" onChange={HandleLogin} /></lable>
+            <div className="login-Content">
+                <h1>Login</h1>
+                <lable>Email: <input type="text" value={login.email} name="email" placeholder="Email" onChange={HandleLogin} /></lable>
                 <lable>Password:<input type="password" value={login.password} name="password" placeholder="password" onChange={HandleLogin} /></lable>
                 <button onClick={HandleSubmit}>login</button>
+
             </div>
+            {error && <div className="showError">
+                <p>{error}</p>
+            </div>}
         </div>
+        
     )
 }
 

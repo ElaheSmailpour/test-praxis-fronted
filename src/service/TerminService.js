@@ -1,18 +1,19 @@
 
-import getAxios from './baseApi'
+
+import axios from "axios";
 class TerminService {
 
     static imagesApi() {
-        return getAxios().get("/imagesHome")
+        return axios.get("/imagesHome")
       }
   
      static RegisterApi=(signup)=>{
-        return getAxios().post("/register/signup",signup)
+        return axios.post("/register/signup",signup)
    }
-   static loginApi=(body)=>{
-    return getAxios().post("/register/login",body)
-}
   
+   static loginApi(email, password) {
+    return axios.post("/register/login", { email, password })
+  }
 
 }
 
