@@ -15,8 +15,9 @@ const Login = () => {
         setLogin(newLogin)
     }
 
-    const HandleSubmit = () => {
-
+    const HandleSubmit = (event) => {
+        event.preventDefault()
+        
         TerminService.loginApi(login.email, login.password).then(res => {
             console.log("res=", res)
             toast.success("login");
