@@ -7,8 +7,8 @@ class TerminService {
         return axios.get("/imagesHome")
       }
   
-     static RegisterApi=(signup)=>{
-        return axios.post("/register/signup",signup)
+     static RegisterApi=(body)=>{
+        return axios.post("/register/signup",body)
    }
   
    static loginApi(email, password) {

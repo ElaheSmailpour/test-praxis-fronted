@@ -20,8 +20,8 @@ const Login = () => {
         TerminService.loginApi(login.email, login.password).then(res => {
             console.log("res=", res)
             toast.success("login");
-            localStorage.setItem("adminToken", res.data.token)
-            localStorage.setItem("Email", login.email)
+            localStorage.setItem("loginToken", res.data.token)
+            localStorage.setItem("email", login.email)
             window.location.assign("/termin");
 
         }).catch(err => {
