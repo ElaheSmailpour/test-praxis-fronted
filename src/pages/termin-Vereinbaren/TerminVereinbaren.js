@@ -13,16 +13,7 @@ const TerminVereinbaren = () => {
   const [selectedDateId, setSelectedDateId] = useState();
   const [selectedHourId, setSelectedHourId] = useState();
   const [behandungsList, setBehandungsList] = useState([])
-  const [aktulleZeit, setAktulleZeit] = useState([
-    //   {
-    //   time: moment().format("dddd D.M.YYYY"),
-    //   hours: [{ id: 1, hour: "14:00" }, { id: 2, hour: "15:00" }, { id: 3, hour: "16:00" }]
-    // }, {
-    //   time: moment().add(1,"days").format("dddd D.M.YYYY"),
-    //   hours: [{ id: 1, hour: "14:00" }, { id: 2, hour: "15:00" }, { id: 3, hour: "16:00" }]
-    // },
-
-  ])
+  const [aktulleZeit, setAktulleZeit] = useState([])
   useEffect(() => {
     TerminService.getbehandlung().then(res => {
       console.log("res=", res)
