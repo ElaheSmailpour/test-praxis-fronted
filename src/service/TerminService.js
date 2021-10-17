@@ -20,7 +20,9 @@ class TerminService {
   static getbehandlung() {
     return axios.get("/termin/behandlungen")
   }
- 
+ static getAvalable(){
+   return axios.get("/termin/")
+ }
 }
 
 export default TerminService
