@@ -9,9 +9,16 @@ import { Collapse } from '@material-ui/core';
 import "./terminVereinbaren.scss"
 
 const TerminVereinbaren = () => {
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    telefonNummber: "",
+    störnieren: false,
+    datenSchutz: false
+  })
+  const [showTerminForm, setShowTermin] = useState(false);
   const [selectedbehandlung, setSelectedbehandung] = useState()
-  const [selectedDateId, setSelectedDateId] = useState();
-  const [selectedHourId, setSelectedHourId] = useState();
+  const [selectedDate, setSelectedDateId] = useState();
+  const [selectedHour, setSelectedHourId] = useState();
   const [behandungsList, setBehandungsList] = useState([])
   const [aktulleZeit, setAktulleZeit] = useState([])
   useEffect(() => {
@@ -29,11 +36,10 @@ const TerminVereinbaren = () => {
   useEffect(() => {
     TerminService.getAvalable().then(res => {
       setAktulleZeit(res.data)
-
-
-    }).catch(err => {
-      console.log("errorgetAvalable=", err)
     })
+      .catch(err => {
+        console.log("errorgetAvalable=", err)
+      })
   }, [])
 
   const handleChangeBehandung = (event) => {
@@ -42,6 +48,20 @@ const TerminVereinbaren = () => {
   const HandleSelectTime = (dateId, hourId) => {
     setSelectedDateId(dateId)
     setSelectedHourId(hourId)
+  }
+  const HandleChangeUserDetail = (event) => {
+    let value;
+    if (event.target.type==="checkbox")
+      value=event.target.checked
+      else 
+      value=event.target.value
+    
+    setUserDetails((olduserDetail) => {
+      return { ...olduserDetail, [event.target.id]:value }
+    })
+  }
+  const handleBestätigung=()=>{
+    
   }
   return (
     <div className="termin">
@@ -69,16 +89,22 @@ const TerminVereinbaren = () => {
               <div className="time-hour">
                 <p>{item.date}</p>
                 <ul>
-                  {item.hours.map(hour => <li onClick={() => HandleSelectTime(item.date, hour)}>{hour + ":00"}</li>)}
+                  {item.hours.map(hour => <li className={hour === selectedHour && item.date === selectedDate && "hourActive"} onClick={() => HandleSelectTime(item.date, hour)}>{hour + ":00"}</li>)}
 
 
                 </ul>
               </div>
-              <Collapse in={selectedDateId === item.date} style={{border:"3px solid red" , padding:"4rem"}}>
+              <Collapse in={selectedDate === item.date} style={{ border: "3px solid red", padding: "4rem" }}>
                 <div className="show-termin">
-                 
-                 <p> Termin für {behandungsList.find(item => item._id === selectedbehandlung)?.title} am {item.date} um {item.hours.find(hour => hour === selectedHourId)} :00 Uhr.</p>
-                <p> Dr.Yas Sarab</p>
+
+                  <p> Termin für {behandungsList.find(item => item._id === selectedbehandlung)?.title} am {item.date} um {item.hours.find(hour => hour === selectedHour)} :00 Uhr.</p>
+                  <p> Dr.Yas Sarab</p>
+                 {!showTerminForm && <button onClick={()=>setShowTermin(true)}>Termin </button>}
+                 {showTerminForm && <label>Name: <input type="text" id="name" placeholder="enter your name" value={userDetails.name} onChange={HandleChangeUserDetail} /></label>}
+                  {userDetails.name.length>4 && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
+                  {userDetails.störnieren && <label>TelefonNummber <input type="number" id="telefonNummber" placeholder="enter your TelefonNummer" value={userDetails.telefonNummber} onChange={HandleChangeUserDetail} /></label>}
+                {userDetails.telefonNummber.length>8 &&  <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
+               <button onClick={handleBestätigung}>Termin Bestätigung</button>
                 </div>
               </Collapse>
             </li>
