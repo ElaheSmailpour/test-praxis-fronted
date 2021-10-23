@@ -71,7 +71,12 @@ const TerminVereinbaren = () => {
     })
 }
   const handleBuchen = () => {
-    TerminService.buchen(userDetails.telefonNummber, userDetails.code).then(res => {
+    const body={
+      name:userDetails.name,
+time:selectedHour,
+date:selectedDate
+    }
+    TerminService.buchen(userDetails.telefonNummber, userDetails.code,body).then(res => {
       alert("hura")
     }).catch(err => {
       console.log("errorhandlebuchen=", err)
