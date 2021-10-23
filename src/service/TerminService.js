@@ -26,8 +26,8 @@ class TerminService {
  static getBestätigungsTermin(phone) {
   return axios.get("/termin/verfyPhone/" + phone)
 }
- static buchen(phone,code){
-  return axios.get("/termin/verfyphone" + phone +"/" +  code)
+ static buchen(phone,code,body){
+  return axios.post("/termin/verfyphone" + phone +"/" +  code,body)
 }
 }
 

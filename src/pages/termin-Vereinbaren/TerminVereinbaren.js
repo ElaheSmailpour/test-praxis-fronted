@@ -72,7 +72,7 @@ const TerminVereinbaren = () => {
 }
   const handleBuchen = () => {
     TerminService.buchen(userDetails.telefonNummber, userDetails.code).then(res => {
-      alert("dd")
+      alert("hura")
     }).catch(err => {
       console.log("errorhandlebuchen=", err)
     })
