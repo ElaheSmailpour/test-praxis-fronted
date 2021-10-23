@@ -13,9 +13,11 @@ const TerminVereinbaren = () => {
     name: "",
     telefonNummber: "",
     störnieren: false,
-    datenSchutz: false
+    datenSchutz: false,
+    code: ""
   })
   const [showTerminForm, setShowTermin] = useState(false);
+  const [codeSenden, setCodeSenden] = useState();
   const [selectedbehandlung, setSelectedbehandung] = useState()
   const [selectedDate, setSelectedDateId] = useState();
   const [selectedHour, setSelectedHourId] = useState();
@@ -51,17 +53,29 @@ const TerminVereinbaren = () => {
   }
   const HandleChangeUserDetail = (event) => {
     let value;
-    if (event.target.type==="checkbox")
-      value=event.target.checked
-      else 
-      value=event.target.value
-    
+    if (event.target.type === "checkbox")
+      value = event.target.checked
+    else
+      value = event.target.value
+
     setUserDetails((olduserDetail) => {
-      return { ...olduserDetail, [event.target.id]:value }
+      return { ...olduserDetail, [event.target.id]: value }
     })
   }
-  const handleBestätigung=()=>{
-    
+  const handleBestätigung = () => {
+    TerminService.getBestätigungsTermin(userDetails.telefonNummber).then(res => {
+        console.log("res=", res)
+        setCodeSenden(true)
+    }).catch(err => {
+        console.log("errorTerminBestätigung=", err)
+    })
+}
+  const handleBuchen = () => {
+    TerminService.buchen(userDetails.telefonNummber, userDetails.code).then(res => {
+      alert("dd")
+    }).catch(err => {
+      console.log("errorhandlebuchen=", err)
+    })
   }
   return (
     <div className="termin">
@@ -99,12 +113,16 @@ const TerminVereinbaren = () => {
 
                   <p> Termin für {behandungsList.find(item => item._id === selectedbehandlung)?.title} am {item.date} um {item.hours.find(hour => hour === selectedHour)} :00 Uhr.</p>
                   <p> Dr.Yas Sarab</p>
-                 {!showTerminForm && <button onClick={()=>setShowTermin(true)}>Termin </button>}
-                 {showTerminForm && <label>Name: <input type="text" id="name" placeholder="enter your name" value={userDetails.name} onChange={HandleChangeUserDetail} /></label>}
-                  {userDetails.name.length>4 && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
+                  {!showTerminForm && <button onClick={() => setShowTermin(true)}>zum Termin </button>}
+                  {showTerminForm && <label>Name: <input type="text" id="name" placeholder="enter your name" value={userDetails.name} onChange={HandleChangeUserDetail} /></label>}
+                  {userDetails.name.length > 4 && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
                   {userDetails.störnieren && <label>TelefonNummber <input type="number" id="telefonNummber" placeholder="enter your TelefonNummer" value={userDetails.telefonNummber} onChange={HandleChangeUserDetail} /></label>}
-                {userDetails.telefonNummber.length>8 &&  <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
-               <button onClick={handleBestätigung}>Termin Bestätigung</button>
+                  {userDetails.telefonNummber.length > 8 && <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
+
+                  {userDetails.datenSchutz && !codeSenden && <button onClick={handleBestätigung}> Termin bestätigung </button>}
+
+                  {codeSenden && <input type="text" placeholder="Code eingeben" value={userDetails.code} id="code" onChange={HandleChangeUserDetail} />}
+                  {codeSenden && <button onClick={handleBuchen}> Buchen </button>}
                 </div>
               </Collapse>
             </li>

@@ -23,6 +23,12 @@ class TerminService {
  static getAvalable(){
    return axios.get("/termin/")
  }
+ static getBestätigungsTermin(phone) {
+  return axios.get("/termin/verfyPhone/" + phone)
+}
+ static buchen(phone,code){
+  return axios.get("/termin/verfyphone" + phone +"/" +  code)
+}
 }
 
 export default TerminService
