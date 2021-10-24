@@ -6,7 +6,7 @@ import { useMediaQuery } from "@material-ui/core";
 const Header = () => {
     const isLogin=localStorage.getItem("loginToken")
     const [openSubMenuTermin, setOpenSubMenuTermin] = useState(false)
- 
+   
     const isMobileSize = useMediaQuery('(max-width:600px)');
     const menuBtnRef = useRef()
     const menuRef = useRef()
@@ -22,6 +22,8 @@ const Header = () => {
     return (
         <div className="header">
             <img src="/images/logo5.jpeg" alt="pic" />
+            
+            {isLogin && <p> {localStorage.getItem("nameToken")} is login!</p>}
             <button ref={menuBtnRef} onClick={HandleClick} className="sidebar-btn">
                 <span></span>
             </button>
