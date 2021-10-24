@@ -7,7 +7,7 @@ import Login from "../src/pages/Login/Login"
 import Kontakt from "../src/pages/kontakt/Kontakt"
 import TerminVereinbaren from "../src/pages/termin-Vereinbaren/TerminVereinbaren"
 import Signup from "./pages/signup/Signup";
-
+import Störnieren from "./pages/störnieren/Störnieren"
 function App() {
 
   return (
@@ -21,6 +21,8 @@ function App() {
      <Route path={"/signup"} component={Signup}></Route>
      <Route path={"/kontakt"} component={Kontakt}></Route>
      <Route path={"/login"} component={Login}></Route>
+     <Route path={"/störnieren"} component={Störnieren}></Route>
+     
      <Route path={"/termin"} component={TerminVereinbaren}></Route>
        <Route path={"/"} component={Home}></Route>
      </Switch>
