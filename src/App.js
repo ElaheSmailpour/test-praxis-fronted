@@ -20,7 +20,7 @@ function App() {
    
      <Route path={"/signup"} component={Signup}></Route>
      <Route path={"/kontakt"} component={Kontakt}></Route>
-     <Route path={"/login"} component={Login}></Route>
+    <Route path={"/login"} component={Login}></Route>
      <Route path={"/störnieren"} component={Störnieren}></Route>
      
      <Route path={"/termin"} component={TerminVereinbaren}></Route>

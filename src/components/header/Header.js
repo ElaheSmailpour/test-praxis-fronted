@@ -4,6 +4,7 @@ import { useRef, useState } from "react"
 import Collapse from '@material-ui/core/Collapse';
 import { useMediaQuery } from "@material-ui/core";
 const Header = () => {
+    const isLogin=localStorage.getItem("loginToken")
     const [openSubMenuTermin, setOpenSubMenuTermin] = useState(false)
  
     const isMobileSize = useMediaQuery('(max-width:600px)');
@@ -14,6 +15,10 @@ const Header = () => {
         menuRef.current.classList.toggle("active")
 
     }
+    const logout=()=>{
+        localStorage.clear();
+        window.location.assign("/login");
+    }
     return (
         <div className="header">
             <img src="/images/logo5.jpeg" alt="pic" />
@@ -22,7 +27,8 @@ const Header = () => {
             </button>
             <nav ref={menuRef} >
                 <ul>
-                    <li><Link to="/login">Login</Link></li>
+                   {!isLogin && <li><Link to="/login">Login</Link></li>}
+                   {isLogin && <li onClick={logout}>Logout</li>}
                     <li><Link to="/signup">Signup</Link></li>
                     <li><Link to="/kontakt">Kontakt</Link> </li>
                    
