@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import { useState, useEffect } from 'react';
 import TerminService from "../../service/TerminService"
 import { Collapse } from '@material-ui/core';
-
+import { useHistory } from "react-router-dom";
 import "./terminVereinbaren.scss"
 
 const TerminVereinbaren = () => {
@@ -23,6 +23,7 @@ const TerminVereinbaren = () => {
   const [selectedHour, setSelectedHourId] = useState();
   const [behandungsList, setBehandungsList] = useState([])
   const [aktulleZeit, setAktulleZeit] = useState([])
+  const history=useHistory()
   useEffect(() => {
     TerminService.getbehandlung().then(res => {
       console.log("res=", res)
@@ -70,21 +71,22 @@ const TerminVereinbaren = () => {
         console.log("errorTerminBestätigung=", err)
     })
 }
-  const handleBuchen = () => {
-    const body = {
+
+const handleBuchen = () => {
+  const body = {
       name: userDetails.name,
       time: selectedHour,
       date: selectedDate
-     
-
   }
   TerminService.buchenApi(userDetails.telefonNummner, userDetails.code, body).then(res => {
        alert("vielen dank für ihre Termin")
+      history.push("/")
+
   }).catch(err => {
       console.log("errorTerminBestätigung=", err)
   })
 
-  }
+}
   return (
     <div className="termin">
 
@@ -125,7 +127,7 @@ const TerminVereinbaren = () => {
                   {showTerminForm && <label>Name: <input type="text" id="name" placeholder="enter your name" value={userDetails.name} onChange={HandleChangeUserDetail} /></label>}
                   {userDetails.name.length > 4 && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
                   {userDetails.störnieren && <label>TelefonNummber <input type="number" id="telefonNummber" placeholder="enter your TelefonNummer" value={userDetails.telefonNummber} onChange={HandleChangeUserDetail} /></label>}
-                  {userDetails.telefonNummber.length > 8 && <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
+                  {userDetails.telefonNummber.length > 5 && <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
 
                   {userDetails.datenSchutz && !codeSenden && <button onClick={handleBestätigung}> Termin bestätigung </button>}
 

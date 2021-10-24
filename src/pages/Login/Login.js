@@ -34,7 +34,7 @@ const Login = () => {
             localStorage.setItem("loginToken", res.data.token)
             localStorage.setItem("emailToken", res.data.email)
             localStorage.setItem("nameToken", res.data.name)
-            alert("signup submitted successfully")
+            alert("Login  successfully")
             window.location.assign("/termin")
 
 
