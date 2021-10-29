@@ -1,5 +1,6 @@
 import "./app.scss"
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React from "react"
+import { BrowserRouter, Route, Switch ,Redirect} from "react-router-dom";
 import Header from "./components/header/Header"
 import Home from "./pages/home/Home";
 import Footer from "./components/footer/Footer"
@@ -21,9 +22,10 @@ function App() {
      <Route path={"/signup"} component={Signup}></Route>
      <Route path={"/kontakt"} component={Kontakt}></Route>
     <Route path={"/login"} component={Login}></Route>
-     <Route path={"/störnieren"} component={Störnieren}></Route>
-     
-     <Route path={"/termin"} component={TerminVereinbaren}></Route>
+    <PrivateRoute path='/störnieren' Component={Störnieren}></PrivateRoute>
+     {/* <Route path={"/störnieren"} component={Störnieren}></Route> */}
+     <PrivateRoute path='/termin' Component={TerminVereinbaren}></PrivateRoute>
+     {/* <Route path={"/termin"} component={TerminVereinbaren}></Route> */}
        <Route path={"/"} component={Home}></Route>
      </Switch>
    </div>
@@ -34,3 +36,12 @@ function App() {
 }
 
 export default App;
+const isAuth = () => !!localStorage.getItem("loginToken");
+const PrivateRoute = ({Component,...props}) => {
+    return <Route {...props} render={() => {
+      // wenn  token ist da , bestimmte component rendern
+        if (isAuth())
+            return React.createElement(Component)
+        else return <Redirect to={"/login"}/>
+    }}/>
+}
