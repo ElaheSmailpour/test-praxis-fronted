@@ -24,20 +24,28 @@ class TerminService {
    return axios.get("/termin/")
  }
  static getBestätigungsTermin(phone) {
-  return axios.get("/termin/verfyPhone/" + phone)
+  return axios.get("/termin/verfyPhone/" + phone,
+  { headers: { token: localStorage.getItem("loginToken") } }
+  )
 }
 static buchenApi(phone, code, body) {
-  return axios.post("/termin/verfyPhone/" + phone + "/" + code, body)
+  return axios.post("/termin/verfyPhone/" + phone + "/" + code, body,
+  { headers: { token: localStorage.getItem("loginToken") }})
 }
 
 static terminListApi(phone){
-  return axios.get("/termin/terminList/" + phone)
+  return axios.get("/termin/terminList/" + phone,
+  { headers: { token: localStorage.getItem("loginToken") } }
+  )
 }
 
 static terminRemoveApi(terminId) {
-  return axios.get("/termin/terminRemove/" + terminId)
+  return axios.get("/termin/terminRemove/" + terminId,
+  { headers: { token: localStorage.getItem("loginToken") } }
+  )
 }
-
 }
 
 export default TerminService
+
+
