@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import "./terminVereinbaren.scss"
 
 const TerminVereinbaren = () => {
+  const isLogin = localStorage.getItem("loginToken")
   const [userDetails, setUserDetails] = useState({
     name: "",
     telefonNummber: "",
@@ -23,7 +24,7 @@ const TerminVereinbaren = () => {
   const [selectedHour, setSelectedHourId] = useState();
   const [behandungsList, setBehandungsList] = useState([])
   const [aktulleZeit, setAktulleZeit] = useState([])
-  const history=useHistory()
+  const history = useHistory()
   useEffect(() => {
     TerminService.getbehandlung().then(res => {
       console.log("res=", res)
@@ -65,28 +66,45 @@ const TerminVereinbaren = () => {
   }
   const handleBestätigung = () => {
     TerminService.getBestätigungsTermin(userDetails.telefonNummber).then(res => {
-        console.log("res=", res)
-        setCodeSenden(true)
+      console.log("res=", res)
+      setCodeSenden(true)
     }).catch(err => {
-        console.log("errorTerminBestätigung=", err)
+      console.log("errorTerminBestätigung=", err)
     })
-}
+  }
 
-const handleBuchen = () => {
-  const body = {
+  const handleBuchen = () => {
+    const body = {
       name: userDetails.name,
       time: selectedHour,
       date: selectedDate
+    }
+    console.log("userdetails", userDetails)
+    if (isLogin) {
+      TerminService.eingelogteuserbuchen(body).then(res => {
+        alert("vielen dank für ihre Termin")
+        history.push("/")
+
+      }).catch(err => {
+        console.log("errorTerminBestätigung=", err)
+      })
+
+    }
+    else {
+     
+      TerminService.buchenApi(userDetails.telefonNummber, userDetails.code, body).then(res => {
+        localStorage.setItem("loginToken", res.data.token)
+        localStorage.setItem("nameToken", res.data.name)
+        alert("vielen dank für ihre Termin")
+       window.location.assign("/")
+
+      }).catch(err => {
+        console.log("errorTerminBestätigung=", err)
+      })
+    }
+
+
   }
-  TerminService.buchenApi(userDetails.telefonNummner, userDetails.code, body).then(res => {
-       alert("vielen dank für ihre Termin")
-      history.push("/")
-
-  }).catch(err => {
-      console.log("errorTerminBestätigung=", err)
-  })
-
-}
   return (
     <div className="termin">
 
@@ -119,21 +137,32 @@ const handleBuchen = () => {
                 </ul>
               </div>
               <Collapse in={selectedDate === item.date} style={{ border: "3px solid red", padding: "4rem" }}>
-                <div className="show-termin">
+                {isLogin ? <div className="show-termin">
 
                   <p> Termin für {behandungsList.find(item => item._id === selectedbehandlung)?.title} am {item.date} um {item.hours.find(hour => hour === selectedHour)} :00 Uhr.</p>
                   <p> Dr.Yas Sarab</p>
                   {!showTerminForm && <button onClick={() => setShowTermin(true)}>zum Termin </button>}
-                  {showTerminForm && <label>Name: <input type="text" id="name" placeholder="enter your name" value={userDetails.name} onChange={HandleChangeUserDetail} /></label>}
-                  {userDetails.name.length > 4 && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
-                  {userDetails.störnieren && <label>TelefonNummber <input type="number" id="telefonNummber" placeholder="enter your TelefonNummer" value={userDetails.telefonNummber} onChange={HandleChangeUserDetail} /></label>}
-                  {userDetails.telefonNummber.length > 5 && <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
+                  {showTerminForm && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
+                  {userDetails.störnieren && <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
 
-                  {userDetails.datenSchutz && !codeSenden && <button onClick={handleBestätigung}> Termin bestätigung </button>}
+                  {userDetails.datenSchutz && <button onClick={handleBuchen}> Buchen </button>}
+                </div> :
 
-                  {codeSenden && <input type="text" placeholder="Code eingeben" value={userDetails.code} id="code" onChange={HandleChangeUserDetail} />}
-                  {codeSenden && <button onClick={handleBuchen}> Buchen </button>}
-                </div>
+                  <div className="show-termin">
+
+                    <p> Termin für {behandungsList.find(item => item._id === selectedbehandlung)?.title} am {item.date} um {item.hours.find(hour => hour === selectedHour)} :00 Uhr.</p>
+                    <p> Dr.Yas Sarab</p>
+                    {!showTerminForm && <button onClick={() => setShowTermin(true)}>zum Termin </button>}
+                    {showTerminForm && <label>Name: <input type="text" id="name" placeholder="enter your name" value={userDetails.name} onChange={HandleChangeUserDetail} /></label>}
+                    {userDetails.name.length > 4 && <label><input type="checkbox" id="störnieren" placeholder=" Termin störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollen Sie Ihren Termin nicht wahrnehmen könnten,sagen Sie bitte 24 stunnden Vor Bescheid!</label>}
+                    {userDetails.störnieren && <label>TelefonNummber <input type="number" id="telefonNummber" placeholder="enter your TelefonNummer" value={userDetails.telefonNummber} onChange={HandleChangeUserDetail} /></label>}
+                    {userDetails.telefonNummber.length > 5 && <label><input type="checkbox" id="datenSchutz" placeholder=" datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich Akzeptire die Datenschutz!</label>}
+
+                    {userDetails.datenSchutz && !codeSenden && <button onClick={handleBestätigung}> Termin bestätigung </button>}
+
+                    {codeSenden && <input type="text" placeholder="Code eingeben" value={userDetails.code} id="code" onChange={HandleChangeUserDetail} />}
+                    {codeSenden && <button onClick={handleBuchen}> Buchen </button>}
+                  </div>}
               </Collapse>
             </li>
           })}

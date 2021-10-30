@@ -24,22 +24,14 @@ class TerminService {
     return axios.get("/termin/")
   }
   static getBestätigungsTermin(phone) {
-    return axios.get("/termin/verfyPhone/" + phone, {
-      headers: {
-        token: localStorage.getItem("loginToken")
-      }
-    })
+    return axios.get("/termin/verfyPhone/" + phone)
   }
   static buchenApi(phone, code, body) {
-    return axios.post("/termin/verfyPhone/" + phone + "/" + code, body, {
-      headers: {
-        token: localStorage.getItem("loginToken")
-      }
-    })
+    return axios.post("/termin/verfyPhone/" + phone + "/" + code, body)
   }
 
   static terminListApi(phone) {
-    return axios.get("/termin/terminList/" + phone, {
+    return axios.get("/termin/terminList", {
       headers: {
         token: localStorage.getItem("loginToken")
       }
@@ -54,6 +46,13 @@ class TerminService {
     })
   }
 
+  static eingelogteuserbuchen(body) {
+    return axios.post("/termin/buchen" ,body, {
+      headers: {
+        token: localStorage.getItem("loginToken")
+      }
+    })
+  }
 }
 
 

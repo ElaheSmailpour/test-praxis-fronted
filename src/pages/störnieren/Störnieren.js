@@ -20,6 +20,7 @@ const Störnieren = () => {
     const HandlechangeInput = (event) => {
         setPhone(event.target.value)
     }
+    
     const Terminstörnieren = (id) => {
         TerminService.terminRemoveApi(id).then(res => {
             alert("Ihre Termin gelöscht.")

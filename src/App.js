@@ -8,7 +8,8 @@ import Login from "../src/pages/Login/Login"
 import Kontakt from "../src/pages/kontakt/Kontakt"
 import TerminVereinbaren from "../src/pages/termin-Vereinbaren/TerminVereinbaren"
 import Signup from "./pages/signup/Signup";
-import Störnieren from "./pages/störnieren/Störnieren"
+import Admin from "./pages/admin/Admin";
+import MeinTermin from "./pages/meintermin/MeinTermin";
 function App() {
 
   return (
@@ -18,14 +19,15 @@ function App() {
   
    <div className="app-content">
      <Switch>
-   
+     <Route path={"/admin"} component={Admin}></Route>
      <Route path={"/signup"} component={Signup}></Route>
      <Route path={"/kontakt"} component={Kontakt}></Route>
     <Route path={"/login"} component={Login}></Route>
-    <PrivateRoute path='/störnieren' Component={Störnieren}></PrivateRoute>
+    <PrivateRoute path={"/meinTermin"} component={MeinTermin}></PrivateRoute>
+   
      {/* <Route path={"/störnieren"} component={Störnieren}></Route> */}
-     <PrivateRoute path='/termin' Component={TerminVereinbaren}></PrivateRoute>
-     {/* <Route path={"/termin"} component={TerminVereinbaren}></Route> */}
+    
+    <Route path={"/termin"} component={TerminVereinbaren}></Route> 
        <Route path={"/"} component={Home}></Route>
      </Switch>
    </div>
@@ -36,12 +38,13 @@ function App() {
 }
 
 export default App;
+
 const isAuth = () => !!localStorage.getItem("loginToken");
-const PrivateRoute = ({Component,...props}) => {
-    return <Route {...props} render={() => {
+const PrivateRoute = ({component,path}) => {
+    return <Route path={path} render={() => {
       // wenn  token ist da , bestimmte component rendern
         if (isAuth())
-            return React.createElement(Component)
+            return React.createElement(component)
         else return <Redirect to={"/login"}/>
     }}/>
 }

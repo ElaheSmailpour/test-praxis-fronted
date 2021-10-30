@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { useMediaQuery } from "@material-ui/core";
 const Header = () => {
     const isLogin=localStorage.getItem("loginToken")
+    const isAdmin=localStorage.getItem("role")==="admin"
     const [openSubMenuTermin, setOpenSubMenuTermin] = useState(false)
    
     const isMobileSize = useMediaQuery('(max-width:600px)');
@@ -33,7 +34,8 @@ const Header = () => {
                    {isLogin && <li onClick={logout}>Logout</li>}
                     <li><Link to="/signup">Signup</Link></li>
                     <li><Link to="/kontakt">Kontakt</Link> </li>
-                   
+                   {isAdmin &&  <li><Link to="/admin">Admin</Link> </li>}
+                    {isLogin &&<li><Link to="/meinTermin">MeinTermin</Link> </li>}
                     <li onClick={() => setOpenSubMenuTermin(!openSubMenuTermin)}> Termin 
                         {isMobileSize ?
                             <Collapse in={openSubMenuTermin} style={{ width: "100%" }} classes={{ root: "collapse" }}>
@@ -41,13 +43,13 @@ const Header = () => {
                                 <li><Link to="/termin"> termin Vereinbaren</Link></li>
 
 
-                                    <li><Link to="/störnieren"> Termin störnieren</Link></li>
+                                   
                                 </ul>
                             </Collapse> :
                             <ul>
                                 <li><Link to="/termin"> termin Vereinbaren</Link></li>
 
-                                <li><Link to="/störnieren"> Termin störnieren</Link></li>
+                               
                             </ul>
                         }
                     </li>

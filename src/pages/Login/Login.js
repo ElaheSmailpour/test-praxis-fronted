@@ -34,8 +34,9 @@ const Login = () => {
             localStorage.setItem("loginToken", res.data.token)
             localStorage.setItem("emailToken", res.data.email)
             localStorage.setItem("nameToken", res.data.name)
+            localStorage.setItem("role", res.data.role)
             alert("Login  successfully")
-            window.location.assign("/termin")
+             window.location.assign("/termin")
 
 
         }).catch((error) => {
