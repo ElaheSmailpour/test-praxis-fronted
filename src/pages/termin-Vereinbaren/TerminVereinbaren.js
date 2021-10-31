@@ -77,9 +77,10 @@ const TerminVereinbaren = () => {
     const body = {
       name: userDetails.name,
       time: selectedHour,
-      date: selectedDate
+      date: selectedDate,
+      behandlungen:selectedbehandlung
     }
-    console.log("userdetails", userDetails)
+  
     if (isLogin) {
       TerminService.eingelogteuserbuchen(body).then(res => {
         alert("vielen dank für ihre Termin")

@@ -1,0 +1,23 @@
+.manage {
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-family: sans-serif;
+
+        td,
+        th {
+            border: 1px solid gray;
+            text-align: center;
+            padding : 0.5rem 2rem;
+        }
+
+        td:first-child {
+            font-weight: bold;
+        }
+
+        thead {
+            th {
+            }
+        }
+    }
+}

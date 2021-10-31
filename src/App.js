@@ -8,7 +8,7 @@ import Login from "../src/pages/Login/Login"
 import Kontakt from "../src/pages/kontakt/Kontakt"
 import TerminVereinbaren from "../src/pages/termin-Vereinbaren/TerminVereinbaren"
 import Signup from "./pages/signup/Signup";
-import Admin from "./pages/admin/Admin";
+import MangeTermin from "./pages/admin/MangeTermin";
 import MeinTermin from "./pages/meintermin/MeinTermin";
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
   
    <div className="app-content">
      <Switch>
-     <Route path={"/admin"} component={Admin}></Route>
+     <Route path={"/admin"} component={MangeTermin}></Route>
      <Route path={"/signup"} component={Signup}></Route>
      <Route path={"/kontakt"} component={Kontakt}></Route>
     <Route path={"/login"} component={Login}></Route>
