@@ -26,7 +26,7 @@ const MeinTermin = () => {
         <div className="meinTermin">
             <ul>
                 {data.map((item, index) => {
-                    return <li key={index}>Ihr Termin ist am {item.date} um {item.time} :00 Uhr.
+                    return <li key={index}> {localStorage.getItem("nameToken")}  dein Termin {item.behandlungen.title}  für ist am {item.date} um {item.time} :00 Uhr.
                         <button onClick={() => removeTermin(item._id, index)}>RemoveTermin</button>
                     </li>
                 })}

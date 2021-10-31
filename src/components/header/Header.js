@@ -32,11 +32,11 @@ const Header = () => {
                 <ul>
                    {!isLogin && <li><Link to="/login">Login</Link></li>}
                    {isLogin && <li onClick={logout}>Logout</li>}
-                    <li><Link to="/signup">Signup</Link></li>
-                    <li><Link to="/kontakt">Kontakt</Link> </li>
+                   {!isAdmin &&   <li><Link to="/signup">Signup</Link></li>}
+                   {!isAdmin &&   <li><Link to="/kontakt">Kontakt</Link> </li>}
                    {isAdmin &&  <li><Link to="/admin">Admin</Link> </li>}
-                    {isLogin &&<li><Link to="/meinTermin">MeinTermin</Link> </li>}
-                    <li onClick={() => setOpenSubMenuTermin(!openSubMenuTermin)}> Termin 
+                    {isLogin && !isAdmin && <li><Link to="/meinTermin">MeinTermin</Link> </li>}
+                   { !isAdmin && <li onClick={() => setOpenSubMenuTermin(!openSubMenuTermin)}> Termin 
                         {isMobileSize ?
                             <Collapse in={openSubMenuTermin} style={{ width: "100%" }} classes={{ root: "collapse" }}>
                                 <ul>
@@ -52,7 +52,7 @@ const Header = () => {
                                
                             </ul>
                         }
-                    </li>
+                    </li>}
                    
                 </ul>
             </nav>
