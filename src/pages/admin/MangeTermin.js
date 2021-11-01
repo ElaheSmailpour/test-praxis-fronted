@@ -97,7 +97,7 @@ const MangeTermin = () => {
                                     <p>{hourItem.krank}</p>
                                     <p> {hourItem.behandlungenTitle}</p>
                                     {hourItem.free ==="free" && <button onClick={() => handleChange(hourItem.hour, item.date)}>RemoveHour</button>}
-                                    {hourItem.free ==="block" && <button onClick={() => makefree(hourItem.hours, item.date)}>makeHour</button>}
+                                    {hourItem.free ==="block" && <button onClick={() => makefree(hourItem.hour, item.date)}>makeHour</button>}
                                 </div>
                             </td>)}
                         </tr>)}
