@@ -17,6 +17,8 @@ const TerminVereinbaren = () => {
     datenSchutz: false,
     code: ""
   })
+  const [currentPage, setCurrentPage] = useState(1)
+ 
   const [showTerminForm, setShowTermin] = useState(false);
   const [codeSenden, setCodeSenden] = useState();
   const [selectedbehandlung, setSelectedbehandung] = useState()
@@ -38,13 +40,13 @@ const TerminVereinbaren = () => {
 
 
   useEffect(() => {
-    TerminService.getAvalable().then(res => {
+    TerminService.getAvalable(currentPage).then(res => {
       setAktulleZeit(res.data)
     })
       .catch(err => {
         console.log("errorgetAvalable=", err)
       })
-  }, [])
+  }, [currentPage])
 
   const handleChangeBehandung = (event) => {
     setSelectedbehandung(event.target.value);
@@ -78,9 +80,9 @@ const TerminVereinbaren = () => {
       name: userDetails.name,
       time: selectedHour,
       date: selectedDate,
-      behandlungen:selectedbehandlung
+      behandlungen: selectedbehandlung
     }
-  
+
     if (isLogin) {
       TerminService.eingelogteuserbuchen(body).then(res => {
         alert("vielen dank für ihre Termin")
@@ -92,12 +94,12 @@ const TerminVereinbaren = () => {
 
     }
     else {
-     
+
       TerminService.buchenApi(userDetails.telefonNummber, userDetails.code, body).then(res => {
         localStorage.setItem("loginToken", res.data.token)
         localStorage.setItem("nameToken", res.data.name)
         alert("vielen dank für ihre Termin")
-       window.location.assign("/")
+        window.location.assign("/")
 
       }).catch(err => {
         console.log("errorTerminBestätigung=", err)
@@ -106,6 +108,15 @@ const TerminVereinbaren = () => {
 
 
   }
+  const näschteseite = () => {
+    setCurrentPage(currentPage + 1)
+}
+const letzeseite = () => {
+    if (currentPage > 1) {
+        setCurrentPage(currentPage - 1)
+    }
+
+}
   return (
     <div className="termin">
 
@@ -165,11 +176,15 @@ const TerminVereinbaren = () => {
                     {codeSenden && <button onClick={handleBuchen}> Buchen </button>}
                   </div>}
               </Collapse>
+            
             </li>
           })}
         </ul>
       </Collapse>
-
+      {selectedbehandlung && <div className="next">
+                <button onClick={näschteseite}>näschte </button>
+                {currentPage > 1 && <button onClick={letzeseite}>letze </button>}
+            </div>}
     </div>
   )
 }

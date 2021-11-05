@@ -20,8 +20,9 @@ class TerminService {
   static getbehandlung() {
     return axios.get("/termin/behandlungen")
   }
-  static getAvalable() {
-    return axios.get("/termin/")
+  static getAvalable(page) {
+    return axios.get("/termin?page=" + page)
+   
   }
   static getBestätigungsTermin(phone) {
     return axios.get("/termin/verfyPhone/" + phone)
