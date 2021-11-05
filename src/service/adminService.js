@@ -1,8 +1,8 @@
 import axios from "axios";
 class TerminService {
 
-  static getTerminApi() {
-    return axios.get("/admin/gettermin",{
+  static getTerminApi(page) {
+    return axios.get("/admin/gettermin?page=" + page,{
         headers:{
             token:localStorage.getItem("loginToken")
         }

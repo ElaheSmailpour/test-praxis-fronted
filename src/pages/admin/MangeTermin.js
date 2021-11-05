@@ -6,14 +6,17 @@ import { useState, useEffect } from 'react';
 import adminService from "../../service/adminService"
 import moment from "moment"
 const MangeTermin = () => {
+    const [currentPage, setCurrentPage] = useState(1)
     const [terminList, setTerminList] = useState([])
     useEffect(() => {
-        adminService.getTerminApi().then((res) => {
-            setTerminList(res.data)
+        adminService.getTerminApi(currentPage).then((res) => {
+            const newlist = [...terminList]
+            newlist.push(...res.data)
+            setTerminList(newlist)
         }).catch((error) => {
             console.log(error)
         })
-    }, [])
+    }, [currentPage])
     const getCurrentDate = (date) => {
         const day = moment(date, "DD-MM-YYYY").format("dddd")
         switch (day) {
@@ -71,6 +74,9 @@ const MangeTermin = () => {
             console.log("errorremoveHourApi=", err)
         })
     }
+    const handleChangeMore = () => {
+        setCurrentPage(currentPage + 1)
+    }
     return (
         <div className="manage">
             <h1>Manage Termin</h1>
@@ -96,14 +102,14 @@ const MangeTermin = () => {
                                     <p>{hourItem.free}</p>
                                     <p>{hourItem.krank}</p>
                                     <p> {hourItem.behandlungenTitle}</p>
-                                    {hourItem.free ==="free" && <button onClick={() => handleChange(hourItem.hour, item.date)}>RemoveHour</button>}
-                                    {hourItem.free ==="block" && <button onClick={() => makefree(hourItem.hour, item.date)}>makeHour</button>}
+                                    {hourItem.free === "free" && <button onClick={() => handleChange(hourItem.hour, item.date)}>RemoveHour</button>}
+                                    {hourItem.free === "block" && <button onClick={() => makefree(hourItem.hour, item.date)}>makeHour</button>}
                                 </div>
                             </td>)}
                         </tr>)}
                     </tbody>
                 </table>
-
+                <button onClick={handleChangeMore} >more</button>
             </div>
 
         </div>
