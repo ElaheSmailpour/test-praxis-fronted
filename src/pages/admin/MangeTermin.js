@@ -1,11 +1,14 @@
 
 
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./mangeTermin.scss"
 import { useState, useEffect } from 'react';
 import adminService from "../../service/adminService"
 import moment from "moment"
 const MangeTermin = () => {
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [currentPage, setCurrentPage] = useState(1)
     const [terminList, setTerminList] = useState([])
     useEffect(() => {
@@ -77,11 +80,20 @@ const MangeTermin = () => {
     const handleChangeMore = () => {
         setCurrentPage(currentPage + 1)
     }
+    const HandleChangeSearch = () => {
+        adminService.searchDateApi(moment(startDate).format("DD-MM-YYYY"), moment(endDate).format("DD-MM-YYYY")).then(res => {
+            setTerminList(res.data);
+        }).catch(err => {
+            console.log("errorgetTerminApi=", err)
+        })
+    }
     return (
         <div className="manage">
             <h1>Manage Termin</h1>
             <div className="manage-content">
-
+            <label>from:<DatePicker selected={startDate}  dateFormat="dd-MM-yyyy" onChange={(date) => setStartDate(date)} /></label>
+                <label>until:<DatePicker selected={endDate} dateFormat="dd-MM-yyyy" onChange={(date) => setEndDate(date)} /></label>
+                <button onClick={HandleChangeSearch}>search</button>
                 <table>
                     <thead>
                         <tr>
